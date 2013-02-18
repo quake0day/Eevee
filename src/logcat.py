@@ -1,6 +1,7 @@
 import Queue
 import subprocess
 import threading
+import re
 
 
 class AsynchronousFileReader(threading.Thread):
@@ -36,25 +37,31 @@ stdout_reader = AsynchronousFileReader(process.stdout, stdout_queue)
 stdout_reader.start()
 
 def is_fps_line(line):
-    data = line.split(" ")
-    if data[1] != "gps\r\n":
-        if "16215" in data[0]:
-            #print data[0]
-            #print data[1]
-            return True
-        
-def update_fps(line):
-    print line
+    return 0
+
+
+def update_fps(line,line_temp):
+    return 0
 
 # Check the queues if we received some output (until there is nothing more to get).
+block = []
 while not stdout_reader.eof():
     while not stdout_queue.empty():
         line = stdout_queue.get()
-        #print line.split(" ")
-        #is_fps_line(line)
-        if is_fps_line(line):
-            update_fps(line)
+        if "Within" not in line and len(line) > 0:
+            pre_line = line
+            block.append(line)
+            #print "PRELINE:",pre_line
+        if "Within" in line:
+            block.append(line)
+            try:
+                name = block[-2].split(":")[1]
+                distance = block[-1].split(":")[1]
+                print name,distance
+            except Exception,E:
+                pass 
 
-
-
+            block = []
+           # print "DIS",line
+        
 

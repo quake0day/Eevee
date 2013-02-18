@@ -104,6 +104,8 @@ class Telnet:
 
 
 adb = ADB()
+tel = Telnet()
+tel.enable_gpsSpoof()
 adb.connect()
 #adb.start(WECHAT)
 adb.refresh_Wechat()
@@ -111,5 +113,7 @@ adb.refresh_Wechat()
 #tel = Telnet()
 #tel.telnet()
 #tel.enable_gpsSpoof()
-#tel.gpsSpoof("37","114")
-#tel.gpsSpoof("38","115")
+tel.gpsSpoof("37","114")
+adb.refresh_Wechat()
+tel.gpsSpoof("38","115")
+adb.refresh_Wechat()

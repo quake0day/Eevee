@@ -1,4 +1,5 @@
 import Queue
+import zmq
 import subprocess
 import threading
 import re
@@ -44,7 +45,12 @@ def update_fps(line,line_temp):
     return 0
 
 # Check the queues if we received some output (until there is nothing more to get).
+
 block = []
+context = zmq.Context()
+socket = context.socket(zmq.PUB)
+#socket.connect("tcp://127.0.0.1:5000")
+
 while not stdout_reader.eof():
     while not stdout_queue.empty():
         line = stdout_queue.get()
@@ -58,6 +64,9 @@ while not stdout_reader.eof():
                 name = block[-2].split(":")[1]
                 distance = block[-1].split(":")[1]
                 print name,distance
+                f = open("./tmp")
+                f.write("1")
+                f.close()
             except Exception,E:
                 pass 
 

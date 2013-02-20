@@ -4,8 +4,9 @@ import subprocess
 import telnetlib
 import zmq
 from time import sleep
+import getHeight as gh
 
-PHONE_IP = "192.168.1.110"
+PHONE_IP = "192.168.1.108"
 WECHAT = "-a android.intent.action.MAIN -n com.tencent.mm/.ui.LauncherUI"
 
 class ADB:
@@ -44,26 +45,20 @@ class ADB:
         adb_press_event_down  = "adb shell input keyevent 20" # press down arrow
         try:
             if(self.first != True):
-                self.f = open("./tmp","w")
-                self.f.write("0")
-                self.f.close()
+                sleep(0.1)
             else:
                 self.first = False
             handler = subprocess.Popen(adb_press_event_enter,shell=True)
             handler.wait()
-            msg = "0"
-            while msg != "1":
-                sleep(0.1)
-                self.f = open("./tmp","w")
-                msg = self.f.read()
-                print msg
+            sleep(10)
             i = 0
-            while i < 100:
+            while i < 15:
                 handler = subprocess.Popen(adb_press_event_down,shell=True)
-                sleep(0.3)
+                #handler.wait()
+                sleep(0.4)
                 i = i + 1
-            handler.wait()
             handler = subprocess.Popen(adb_press_event_esc,shell=True)
+            handler.wait()
         except Exception,E:
             print E
             print "Cannot send keycode "
@@ -120,7 +115,10 @@ class Telnet:
         return 0
 
 
-
+def load_loc():
+    #geo = gh.formatPathInfo(gh.getPathInfo(42.99855039261829,-78.79622441563413,43.004905938753645,-78.78722492218014))  #TEST 2
+    geo = gh.formatPathInfo(gh.getPathInfo(43.000002025901935, -78.79973274502561,43.000002025901935, -78.78740731239316))  #TEST 3
+    return geo
 
 adb = ADB()
 tel = Telnet()
@@ -133,13 +131,23 @@ adb.refresh_Wechat()
 #tel = Telnet()
 #tel.telnet()
 #tel.enable_gpsSpoof()
+geo = load_loc()
 i = 0
-
-while i < 10:
-    print (39.9339-0.05*i)
-    print (116.362-0.05*i)
+for item in geo:
+    show = "TEST:"+str(i)
+    print show
+    i = i + 1
+    print item[0],item[1]
     tel.disable_gpsSpoof()
     tel.enable_gpsSpoof()
-    tel.gpsSpoof(39.9339-0.005*i,116.362-0.005*i)
+    tel.gpsSpoof(item[0],item[1])
+    #tel.gpsSpoof(39.9435576704414,116.43685933589938)
     adb.refresh_Wechat()
+"""
+geo = load_loc()
+i = 0
+for item in geo:
+    print i
+    print item[0],item[1]
     i = i + 1
+    """

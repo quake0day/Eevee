@@ -1,8 +1,9 @@
 import Queue
-import zmq
+import socket,os
 import subprocess
 import threading
 import re
+import time
 
 
 class AsynchronousFileReader(threading.Thread):
@@ -44,10 +45,19 @@ def is_fps_line(line):
 def update_fps(line,line_temp):
     return 0
 
+def send_info(name,distance):
+    sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)   
+    sock.connect("/tmp/UNIX.d")   
+    time.sleep(2) 
+    sock.send("HI")   
+    print sock.recv(1024)   
+    sock.close()  
+
 # Check the queues if we received some output (until there is nothing more to get).
 
 block = []
-
+#sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)   
+#sock.connect("/tmp/UNIX.d")   
 while not stdout_reader.eof():
     while not stdout_queue.empty():
         line = stdout_queue.get()
@@ -61,11 +71,16 @@ while not stdout_reader.eof():
                 name = block[-2].split(":")[1]
                 distance = block[-1].split(":")[1]
                 if "quake0day" in name:
-                    print name,distance
+                    #print name,distance
+                    sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)   
+                    sock.connect("/tmp/UNIX.d")
+                    info = distance    
+                    sock.send(info)  
+                    #time.sleep(2)
+                    sock.close()
             except Exception,E:
                 pass 
 
             block = []
            # print "DIS",line
         
-

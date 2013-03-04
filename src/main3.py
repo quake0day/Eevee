@@ -2,7 +2,7 @@
 import os
 import subprocess
 import telnetlib
-import zmq
+import socket
 from time import sleep
 
 PHONE_IP = "192.168.1.108"
@@ -121,22 +121,40 @@ class Telnet:
 
 
 
+"""
+if __name__ == '__main__':    
+    sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    if os.path.exists('/tmp/UNIX.d'):
+        os.unlink('/tmp/UNIX.d')
+    sock.bind('/tmp/UNIX.d')   
+    sock.listen(5)   
+    while True:
+        connection,address = sock.accept()    
+        #print "%s"%connection.recv(1024);
+        user_info = connection.recv(1024);
+        print user_info.split("Within")[0]
+        print user_info.split("Within")[1]
+        connection.close() 
+"""
 
-adb = ADB()
+
+
+#adb = ADB()
 tel = Telnet()
 tel.establish_conn()
 tel.enable_gpsSpoof()
-adb.connect()
+i = 90
+tel.gpsSpoof(39.9339-0.005*i,116.362-0.005*i)
+#adb.connect()
 #adb.start(WECHAT)
 #adb.refresh_Wechat()
 
+"""
 #tel = Telnet()
 #tel.telnet()
-i = 2
-tel.gpsSpoof(39.9339-0.005*i,116.362-0.005*i)
-tel.disable_gpsSpoof()
+#tel.enable_gpsSpoof()
+i = 0
 
-"""
 while i < 10:
     print (39.9339-0.05*i)
     print (116.362-0.05*i)
@@ -145,4 +163,5 @@ while i < 10:
     tel.gpsSpoof(39.9339-0.005*i,116.362-0.005*i)
     adb.refresh_Wechat()
     i = i + 1
+
     """

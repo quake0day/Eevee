@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <EditTextPreference android:title="Username"
+                      android:key="username"
+                      android:summary="Please provide your username"></EditTextPreference>
+  <EditTextPreference android:title="Server IP"
+                      android:key="ip"
+                      android:defaultValue="202.120.38.222"
+                      android:summary="Please set server IP"></EditTextPreference>
+  <ListPreference     android:title="Application"
+                      android:summary="Select the app you are using"
+                      android:key="apptype"
+                      android:defaultValue="skout"
+                      android:entries="@array/app_array"
+                      android:entryValues="@array/app_values" />
+</PreferenceScreen>

@@ -24,8 +24,8 @@ public class BootBroadcast extends BroadcastReceiver {
 			long firstime = SystemClock.elapsedRealtime();
 			AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			
-			// check every 10 secs
-			am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,firstime,10*1000,sender);
+			// check every 20 secs
+			am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,firstime,20*1000,sender);
 			
 		}
 

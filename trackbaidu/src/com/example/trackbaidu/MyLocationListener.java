@@ -13,6 +13,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 
@@ -24,9 +28,10 @@ import com.baidu.location.LocationClientOption;
 public class MyLocationListener implements BDLocationListener {
 	// Server ip
 	public String SERVER_IP_ADDR = "202.120.38.222";
-	public String APPNAME = "momo";
+	public String APPNAME = "test";
 	public String USERNAME = "test";
-	
+ 
+
 	@Override
 	public void onReceiveLocation(BDLocation location) {
 		// TODO Auto-generated method stub
@@ -42,7 +47,7 @@ public class MyLocationListener implements BDLocationListener {
 		Log.d("DATA:",sbuf.toString());
 		// If loc success code = 61
 		if(location.getLocType() == 61){
-			postToServer(location);
+			postToServer(location);			
 		}
 
 	}
@@ -55,6 +60,11 @@ public class MyLocationListener implements BDLocationListener {
 
 	
     private void postToServer(BDLocation location){
+
+    	SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(SharedValue.getInstance());
+    	USERNAME = SP.getString("username", "NA");
+    	APPNAME = SP.getString("apptype", "test");
+    	SERVER_IP_ADDR = SP.getString("ip", "202.120.38.222");
     	String uriAPI = "http://"+ SERVER_IP_ADDR + ":8080/submit-feeds";
     	
     	// create new http post
@@ -111,4 +121,6 @@ public class MyLocationListener implements BDLocationListener {
 
 
     }
+
+
 }

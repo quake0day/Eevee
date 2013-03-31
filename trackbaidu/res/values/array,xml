@@ -1,0 +1,12 @@
+<resources>
+<string-array name="app_array">
+	<item>skout</item>
+	<item>momo</item>
+	<item>wechat</item>
+</string-array>
+<string-array name="app_values">
+    <item>skout</item>
+    <item>momo</item>
+    <item>wechat</item>
+</string-array>
+</resources>

@@ -15,7 +15,7 @@ import android.widget.Toast;
 public class GPSService extends Service{
 	// update interval (msec)
 	// update every 5 min
-	public int EXTRA_UPDATE_RATE = 5*60*1000;
+	public int EXTRA_UPDATE_RATE = 20*60*1000;
 
 
 	
@@ -31,7 +31,6 @@ public class GPSService extends Service{
     public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
-
         
     }
     
@@ -61,6 +60,7 @@ public class GPSService extends Service{
     public void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
+        mLocationClient.stop();
     }
 
     
@@ -69,11 +69,12 @@ public class GPSService extends Service{
     	// open GPS when service start
     	option.setOpenGps(true);
     	// Set Result Return type default:gcj02
-    	option.setCoorType("bd09ll");
+    	option.setCoorType("gcj02");
     	// Set request span
     	option.setScanSpan(EXTRA_UPDATE_RATE);
     	// Disable 
     	option.disableCache(true);
+    	option.setPriority(LocationClientOption.GpsFirst);
     	mLocationClient.setLocOption(option);
    
     }

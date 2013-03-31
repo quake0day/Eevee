@@ -12,7 +12,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme" 
+        android:name=".SharedValue">
         <activity
             android:name="com.example.trackbaidu.MainActivity"
             android:label="@string/app_name" >
@@ -38,6 +39,7 @@
         <receiver android:name=".Alarmreceiver"><intent-filter>
             <action android:name="trackbaidu.action"></action>
         </intent-filter></receiver>
+        <activity android:name="com.example.trackbaidu.AppPreferences" android:label="Preferences"></activity>
     </application>
     
     	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
